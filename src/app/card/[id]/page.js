@@ -75,22 +75,28 @@ export default function VisitingCardPage() {
     if (!userData) return;
 
     const vcfContent = `BEGIN:VCARD
-VERSION:3.0
-FN:${userData.name}
-ORG:${userData.company}
-TITLE:${userData.designation}
-TEL:${userData.phone}
-EMAIL:${userData.email}
-ADR:;;${userData.address};;;;
-URL:${userData.linkedin}
-NOTE:${userData.tagline}
-END:VCARD`;
+  VERSION:3.0
+  FN:${userData.name}
+  ORG:${userData.company}
+  TITLE:${userData.designation}
+  TEL:${userData.phone}
+  EMAIL:${userData.email}
+  ADR:;;${userData.address};;;;
+  URL:${userData.linkedin}
+  NOTE:${userData.tagline}
+  END:VCARD`;
 
     const blob = new Blob([vcfContent], { type: "text/vcard" });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
+
+    // Replace spaces with underscores in both name and company
+    const safeName = userData.name.replace(/\s+/g, "_");
+    const safeCompany = userData.company?.replace(/\s+/g, "_") || "Company";
+
     link.href = url;
-    link.download = `${userData.name.replace(/\s+/g, "_")}_contact.vcf`;
+    link.download = `${safeName}_${safeCompany}.vcf`;
+
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
