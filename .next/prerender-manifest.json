@@ -30,30 +30,6 @@
         "x-next-revalidate-tag-token"
       ]
     },
-    "/dashboard": {
-      "experimentalBypassFor": [
-        {
-          "type": "header",
-          "key": "Next-Action"
-        },
-        {
-          "type": "header",
-          "key": "content-type",
-          "value": "multipart/form-data;.*"
-        }
-      ],
-      "initialRevalidateSeconds": false,
-      "srcRoute": "/dashboard",
-      "dataRoute": "/dashboard.rsc",
-      "allowHeader": [
-        "host",
-        "x-matched-path",
-        "x-prerender-revalidate",
-        "x-prerender-revalidate-if-generated",
-        "x-next-revalidated-tags",
-        "x-next-revalidate-tag-token"
-      ]
-    },
     "/": {
       "experimentalBypassFor": [
         {
@@ -77,13 +53,37 @@
         "x-next-revalidated-tags",
         "x-next-revalidate-tag-token"
       ]
+    },
+    "/dashboard": {
+      "experimentalBypassFor": [
+        {
+          "type": "header",
+          "key": "Next-Action"
+        },
+        {
+          "type": "header",
+          "key": "content-type",
+          "value": "multipart/form-data;.*"
+        }
+      ],
+      "initialRevalidateSeconds": false,
+      "srcRoute": "/dashboard",
+      "dataRoute": "/dashboard.rsc",
+      "allowHeader": [
+        "host",
+        "x-matched-path",
+        "x-prerender-revalidate",
+        "x-prerender-revalidate-if-generated",
+        "x-next-revalidated-tags",
+        "x-next-revalidate-tag-token"
+      ]
     }
   },
   "dynamicRoutes": {},
   "notFoundRoutes": [],
   "preview": {
-    "previewModeId": "577b4dd7ba5ac06d19b89e98b47940a4",
-    "previewModeSigningKey": "f0cfc4551c05f420f709d95811d59a99f5e17cebcd2bffa52aedf39b6ce4931f",
-    "previewModeEncryptionKey": "d4ceb3d2307f092411348059f6c8218a65909324e0c24ea275e81c542b71a6df"
+    "previewModeId": "6f8d42c74a9291a425fdbb1c5ccfb07a",
+    "previewModeSigningKey": "42bc4d830b1ebaa54f1f5416565ca11b5017bacfe03eaa7fc6fac5366db21357",
+    "previewModeEncryptionKey": "2c7496d8bd37204408e08dc8902f0affb0f1ac2441339feccd0f5cccfb86ed76"
   }
 }

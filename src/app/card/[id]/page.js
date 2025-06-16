@@ -71,38 +71,101 @@ export default function VisitingCardPage() {
     }
   };
 
+  const escapeVCF = (value) => {
+    if (!value) return "";
+    return String(value)
+      .replace(/\\/g, "\\\\") // Escape backslashes first
+      .replace(/\r\n/g, "\\n") // Handle Windows line endings
+      .replace(/\n/g, "\\n") // Handle Unix line endings
+      .replace(/\r/g, "\\n") // Handle Mac line endings
+      .replace(/,/g, "\\,") // Escape commas
+      .replace(/;/g, "\\;"); // Escape semicolons
+  };
+
   const generateVCF = () => {
     if (!userData) return;
 
-    const vcfContent = `BEGIN:VCARD
-  VERSION:3.0
-  FN:${userData.name}
-  ORG:${userData.company}
-  TITLE:${userData.designation}
-  TEL:${userData.phone}
-  EMAIL:${userData.email}
-  ADR:;;${userData.address};;;;
-  URL:${userData.linkedin}
-  NOTE:${userData.tagline}
-  END:VCARD`;
+    // Build VCF content with proper formatting
+    let vcfContent = "BEGIN:VCARD\r\n";
+    vcfContent += "VERSION:3.0\r\n";
 
-    const blob = new Blob([vcfContent], { type: "text/vcard" });
+    // Full Name (required)
+    if (userData.name) {
+      vcfContent += `FN:${escapeVCF(userData.name)}\r\n`;
+      // Also add structured name (N property)
+      const nameParts = userData.name.trim().split(/\s+/);
+      const lastName = nameParts.length > 1 ? nameParts.pop() : "";
+      const firstName = nameParts.join(" ");
+      vcfContent += `N:${escapeVCF(lastName)};${escapeVCF(firstName)};;;\r\n`;
+    }
+
+    // Organization
+    if (userData.company) {
+      vcfContent += `ORG:${escapeVCF(userData.company)}\r\n`;
+    }
+
+    // Title/Designation
+    if (userData.designation) {
+      vcfContent += `TITLE:${escapeVCF(userData.designation)}\r\n`;
+    }
+
+    // Phone number
+    if (userData.phone) {
+      // Clean phone number and add type
+      const cleanPhone = userData.phone.replace(/[^\d+\-\s()]/g, "");
+      vcfContent += `TEL;TYPE=WORK,VOICE:${cleanPhone}\r\n`;
+    }
+
+    // Email
+    if (userData.email) {
+      vcfContent += `EMAIL;TYPE=WORK:${userData.email}\r\n`;
+    }
+
+    // Address (structured format: ;;street;city;state;postal;country)
+    if (userData.address) {
+      vcfContent += `ADR;TYPE=WORK:;;${escapeVCF(userData.address)};;;;\r\n`;
+    }
+
+    // LinkedIn URL
+    if (userData.linkedin) {
+      vcfContent += `URL;TYPE=WORK:${userData.linkedin}\r\n`;
+    }
+
+    // Note/Tagline
+    if (userData.tag || userData.tagline) {
+      const note = userData.tagline || userData.tag;
+      vcfContent += `NOTE:${escapeVCF(note)}\r\n`;
+    }
+
+    vcfContent += "END:VCARD\r\n";
+
+    // Create and download the file
+    const blob = new Blob([vcfContent], {
+      type: "text/vcard;charset=utf-8",
+    });
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
 
-    // Replace spaces with underscores in both name and company
-    const safeName = userData.name.replace(/\s+/g, "_");
-    const safeCompany = userData.company?.replace(/\s+/g, "_") || "Company";
+    // Generate safe filename
+    const safeName = (userData.name || "contact")
+      .replace(/\s+/g, "_")
+      .replace(/[^\w-]/g, "")
+      .substring(0, 30); // Limit length
+
+    const safeCompany = (userData.company || "company")
+      .replace(/\s+/g, "_")
+      .replace(/[^\w-]/g, "")
+      .substring(0, 30); // Limit length
 
     link.href = url;
-    link.download = `${safeName}_${safeCompany}.vcf`;
+    link.download = `${safeName}_${safeCompany}_contact.vcf`;
+    link.style.display = "none";
 
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     window.URL.revokeObjectURL(url);
   };
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -160,8 +223,8 @@ export default function VisitingCardPage() {
                   <Image
                     src={userData.companyLogo?.url}
                     alt={`${userData.company} logo`}
-                    width={32}
-                    height={32}
+                    width={500}
+                    height={500}
                     className="w-full h-full object-contain"
                   />
                 </div>
@@ -173,8 +236,8 @@ export default function VisitingCardPage() {
                 <Image
                   src={userData.profileImage.url}
                   alt={userData.name}
-                  width={120}
-                  height={120}
+                  width={750}
+                  height={750}
                   className="w-full h-full object-cover"
                   priority
                 />
@@ -301,7 +364,7 @@ export default function VisitingCardPage() {
                   href={userData.directions}
                   className="mt-3 flex justify-center gap-2 items-center bg-gray-800 hover:bg-gray-900 text-white px-4 py-3 rounded-full text-sm font-medium transition-all"
                 >
-                  <Send className="w-6 h-6 text-gray-500" />
+                  <Send className="w-6 h-6 text-white" />
                   Get Directions
                 </Link>
               ) : null}
