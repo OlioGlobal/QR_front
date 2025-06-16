@@ -152,7 +152,7 @@ END:VCARD`;
               <div className="flex justify-start mb-6">
                 <div className="w-16 h-16 bg-white rounded-full p-2 shadow-md flex items-center justify-center">
                   <Image
-                    src={userData.companyLogo.url}
+                    src={userData.companyLogo?.url}
                     alt={`${userData.company} logo`}
                     width={32}
                     height={32}
@@ -162,17 +162,18 @@ END:VCARD`;
               </div>
             )}
 
-            {/* Profile Image */}
-            <div className="w-52 h-52 mx-auto mb-4 rounded-full overflow-hidden ring-4 ring-white shadow-lg">
-              <Image
-                src={userData.profileImage.url}
-                alt={userData.name}
-                width={120}
-                height={120}
-                className="w-full h-full object-cover"
-                priority
-              />
-            </div>
+            {userData.profileImage?.url ? (
+              <div className="w-52 h-52 mx-auto mb-4 rounded-full overflow-hidden ring-4 ring-white shadow-lg">
+                <Image
+                  src={userData.profileImage.url}
+                  alt={userData.name}
+                  width={120}
+                  height={120}
+                  className="w-full h-full object-cover"
+                  priority
+                />
+              </div>
+            ) : null}
 
             {/* Name and Title */}
             <h1 className="text-2xl font-bold text-gray-900 mb-1">
@@ -207,9 +208,15 @@ END:VCARD`;
                 href={`https://wa.me/${userData.phone}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white hover:bg-green-600 transition-colors shadow-md"
+                className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white hover:bg-red-600 transition-colors shadow-md"
               >
-                <MessageCircle className="w-5 h-5" />
+                <Image
+                  src="/whatsapp.png" // Replace this with your actual image path
+                  alt="WhatsApp"
+                  width={34}
+                  height={34}
+                  className="object-contain"
+                />
               </a>
             </div>
           </div>
@@ -283,57 +290,62 @@ END:VCARD`;
               </div>
             </div>
             <div className="flex">
-              <Link
-                href={userData.directions}
-                className="mt-3 flex justify-center gap-2 items-center bg-gray-800 hover:bg-gray-900 text-white px-4 py-3 rounded-full text-sm font-medium transition-all"
-              >
-                <Send className="w-6 h-6 text-gray-500" />
-                Get Directions
-              </Link>
+              {userData.directions ? (
+                <Link
+                  href={userData.directions}
+                  className="mt-3 flex justify-center gap-2 items-center bg-gray-800 hover:bg-gray-900 text-white px-4 py-3 rounded-full text-sm font-medium transition-all"
+                >
+                  <Send className="w-6 h-6 text-gray-500" />
+                  Get Directions
+                </Link>
+              ) : null}
             </div>
           </div>
         </div>
 
         {/* Social Media Card */}
-        <div className="bg-white  p-6 mb-6 rounded-2xl shadow-lg">
-          <div className="flex mb-5 justify-start gap-3 items-center">
-            <div className="w-8 h-8  rounded-full flex items-center justify-center ">
-              <Link2 className="w-10 h-10 text-gray-500" />
+        {(userData.linkedin || userData.instagram) && (
+          <div className="bg-white p-6 mb-6 rounded-2xl shadow-lg">
+            <div className="flex mb-5 justify-start gap-3 items-center">
+              <div className="w-8 h-8 rounded-full flex items-center justify-center">
+                <Link2 className="w-10 h-10 text-gray-500" />
+              </div>
+              <h2 className="text-xl font-semibold text-gray-800">
+                Follow Me On
+              </h2>
             </div>
-            <h2 className="text-xl font-semibold text-gray-800">
-              Follow Me On
-            </h2>
-          </div>
 
-          <div className="flex flex-wrap items-center gap-4">
-            {userData.linkedin && (
-              <Link
-                href={userData.linkedin}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3  bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors group shadow-sm"
-              >
-                <div className="w-11 h-11 bg-blue-600 rounded-lg flex items-center justify-center">
-                  <Linkedin className="w-8 h-8 text-white" />
-                </div>
-              </Link>
-            )}
+            <div className="flex flex-wrap items-center gap-4">
+              {/* LinkedIn */}
+              {userData.linkedin?.trim() && (
+                <Link
+                  href={userData.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors group shadow-sm"
+                >
+                  <div className="w-11 h-11 bg-blue-600 rounded-lg flex items-center justify-center">
+                    <Linkedin className="w-8 h-8 text-white" />
+                  </div>
+                </Link>
+              )}
 
-            {/* Instagram */}
-            {userData.instagram && (
-              <Link
-                href={userData.instagram}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-3  bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors group shadow-sm"
-              >
-                <div className="w-11 h-11 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-                  <Instagram className="w-8 h-8 text-white" />
-                </div>
-              </Link>
-            )}
+              {/* Instagram */}
+              {userData.instagram?.trim() && (
+                <Link
+                  href={userData.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors group shadow-sm"
+                >
+                  <div className="w-11 h-11 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                    <Instagram className="w-8 h-8 text-white" />
+                  </div>
+                </Link>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* Floating Contact Button */}
