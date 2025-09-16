@@ -33,6 +33,8 @@ const CreateOrUpdateUserModal = ({
     address: "",
     linkedin: "",
     instagram: "",
+    youtube: "",
+    whatsapp: "",
     directions: "",
   });
 
@@ -52,6 +54,8 @@ const CreateOrUpdateUserModal = ({
         address: initialData.address || "",
         linkedin: initialData.linkedin || "",
         instagram: initialData.instagram || "",
+        youtube: initialData.youtube || "",
+        whatsapp: initialData.whatsapp || "",
         directions: initialData.directions || "",
       });
     }
@@ -106,6 +110,8 @@ const CreateOrUpdateUserModal = ({
             linkedin: "",
             instagram: "",
             directions: "",
+            youtube: "",
+            whatsapp: "",
           });
           setProfileImage(null);
           setCompanyLogo(null);
@@ -157,8 +163,10 @@ const CreateOrUpdateUserModal = ({
                   { field: "tagline", label: "Tagline", type: "text" },
                   { field: "phone", label: "Phone", type: "tel" },
                   { field: "email", label: "Email", type: "email" },
+                  { field: "whatsapp", label: "WhatsApp Number", type: "tel" },
                   { field: "linkedin", label: "LinkedIn URL", type: "url" },
                   { field: "instagram", label: "Instagram URL", type: "url" },
+                  { field: "youtube", label: "YouTube URL", type: "url" },
                   { field: "directions", label: "GoogleMap URL", type: "url" }, // Fixed typo here (filed -> field)
                 ].map(({ field, label, type }) => (
                   <div key={field}>
