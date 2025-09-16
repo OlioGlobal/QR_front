@@ -273,20 +273,22 @@ export default function VisitingCardPage() {
               >
                 <MessageCircle className="w-5 h-5" />
               </a>
-              <a
-                href={`https://wa.me/${userData.phone}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white hover:bg-red-600 transition-colors shadow-md"
-              >
-                <Image
-                  src="/whatsapp.png" // Replace this with your actual image path
-                  alt="WhatsApp"
-                  width={34}
-                  height={34}
-                  className="object-contain"
-                />
-              </a>
+              {userData.whatsapp && (
+                <a
+                  href={`https://wa.me/${userData.whatsapp}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white hover:bg-red-600 transition-colors shadow-md"
+                >
+                  <Image
+                    src="/whatsapp.png"
+                    alt="WhatsApp"
+                    width={34}
+                    height={34}
+                    className="object-contain"
+                  />
+                </a>
+              )}
             </div>
           </div>
         </div>
