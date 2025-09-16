@@ -10,6 +10,7 @@ import {
   MapPin,
   Linkedin,
   Instagram,
+  Youtube,
   Download,
   Building2,
   ChevronRight,
@@ -375,7 +376,8 @@ export default function VisitingCardPage() {
         </div>
 
         {/* Social Media Card */}
-        {(userData.linkedin || userData.instagram) && (
+        {/* Social Media Card */}
+        {(userData.linkedin || userData.instagram || userData.youtube) && (
           <div className="bg-white p-6 mb-6 rounded-2xl shadow-lg">
             <div className="flex mb-5 justify-start gap-3 items-center">
               <div className="w-8 h-8 rounded-full flex items-center justify-center">
@@ -411,6 +413,20 @@ export default function VisitingCardPage() {
                 >
                   <div className="w-11 h-11 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
                     <Instagram className="w-8 h-8 text-white" />
+                  </div>
+                </Link>
+              )}
+
+              {/* YouTube -- Add this block */}
+              {userData.youtube?.trim() && (
+                <Link
+                  href={userData.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 bg-gray-50 hover:bg-gray-100 rounded-xl transition-colors group shadow-sm"
+                >
+                  <div className="w-11 h-11 bg-red-600 rounded-lg flex items-center justify-center">
+                    <Youtube className="w-8 h-8 text-white" />
                   </div>
                 </Link>
               )}
