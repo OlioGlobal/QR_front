@@ -323,7 +323,7 @@ export default function VisitingCardPage() {
                 <Phone className="w-4 h-4 text-gray-500" />
               </div>
               <div>
-                <h3 className="font-medium">Call Us</h3>
+                <h3 className="font-medium">Call</h3>
                 <a
                   href={`tel:${userData.phone}`}
                   className="text-gray-600 hover:text-blue-600 transition-colors block"
@@ -384,7 +384,7 @@ export default function VisitingCardPage() {
                 <Link2 className="w-10 h-10 text-gray-500" />
               </div>
               <h2 className="text-xl font-semibold text-gray-800">
-                Follow Me On
+                Follow us on
               </h2>
             </div>
 
